@@ -1,6 +1,6 @@
 import os
 
-from utils import process_directory, save_csv
+from .utils import process_directory, save_csv
 
 if __name__ == "__main__":
     INPUT_DIR = input("Enter input directory: ").strip()

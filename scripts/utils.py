@@ -3,7 +3,7 @@ import os
 import xml.etree.ElementTree as ET
 import zipfile
 
-from constants import (
+from .constants import (
     NS,
     SKIP_PREFIXES,
     SUMMARY_OUTPUT_COLUMN_NAMES,
