@@ -1,1 +1,6 @@
+# local test files
 test_files/
+
+# python, Pycharm
+.idea/
+__pycache__/
