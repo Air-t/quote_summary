@@ -4,3 +4,6 @@ test_files/
 # python, Pycharm
 .idea/
 __pycache__/
+
+# pre-commit
+node_modules/

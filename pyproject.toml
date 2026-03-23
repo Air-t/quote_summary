@@ -2,3 +2,33 @@
 name = "ods-scraper"
 version = "0.1.0"
 requires-python = "==3.10.*"
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "I",   # import sorting (isort)
+    "B",   # bugbear (common bugs)
+    "UP",  # pyupgrade (modern syntax)
+]
+
+lint.ignore = [
+    "E203",
+]
+
+exclude = [
+    ".git",
+    "python-version",
+    "__pycache__",
+    "venv",
+    ".venv",
+    ".idea",
+    "node_modules"
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

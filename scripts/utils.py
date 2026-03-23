@@ -1,14 +1,14 @@
-import os
 import csv
-import zipfile
+import os
 import xml.etree.ElementTree as ET
+import zipfile
 
 from constants import (
     NS,
     SKIP_PREFIXES,
-    TOTAL_MEMBERS_TEXT,
+    SUMMARY_OUTPUT_COLUMN_NAMES,
     TOTAL_MEMBERS_ESTIMATED_TEXT,
-    SUMMARY_OUTPUT_COLUMN_NAMES
+    TOTAL_MEMBERS_TEXT,
 )
 
 
@@ -16,14 +16,17 @@ def log_error(message, log_file):
     with open(log_file, "a", encoding="utf-8") as f:
         f.write(message + "\n")
 
+
 def get_row_by_index(rows, target_index):
     current_index = 0
 
     for row in rows:
-        repeat = int(row.attrib.get(
-            '{urn:oasis:names:tc:opendocument:xmlns:table:1.0}number-rows-repeated',
-            1
-        ))
+        repeat = int(
+            row.attrib.get(
+                "{urn:oasis:names:tc:opendocument:xmlns:table:1.0}number-rows-repeated",
+                1,
+            )
+        )
 
         for _ in range(repeat):
             if current_index == target_index:
@@ -31,6 +34,7 @@ def get_row_by_index(rows, target_index):
             current_index += 1
 
     return None
+
 
 def get_cell_text_in_row(row, ns, search_text, index_increment=1):
     cells = row.findall("table:table-cell", ns)
@@ -49,14 +53,14 @@ def get_cell_text_in_row(row, ns, search_text, index_increment=1):
 
 def extract_from_ods(file_path, log_file):
     try:
-        with zipfile.ZipFile(file_path, 'r') as z:
-            with z.open('content.xml') as f:
+        with zipfile.ZipFile(file_path, "r") as z:
+            with z.open("content.xml") as f:
                 tree = ET.parse(f)
                 root = tree.getroot()
 
         rows = root.findall(".//table:table-row", NS)
         total_estimated = get_cell_text_in_row(
-            get_row_by_index(rows, 51), NS,TOTAL_MEMBERS_ESTIMATED_TEXT
+            get_row_by_index(rows, 51), NS, TOTAL_MEMBERS_ESTIMATED_TEXT
         )
         total_members = get_cell_text_in_row(
             get_row_by_index(rows, 63), NS, TOTAL_MEMBERS_TEXT
@@ -67,6 +71,7 @@ def extract_from_ods(file_path, log_file):
     except Exception as e:
         log_error(f"{file_path} -> ERROR: {str(e)}", log_file)
         return None, None
+
 
 def process_directory(input_dir, log_file):
     results = []
@@ -83,6 +88,7 @@ def process_directory(input_dir, log_file):
                     results.append([full_path, est, total])
 
     return results
+
 
 def save_csv(data, summary_file):
     with open(summary_file, "w", newline="", encoding="utf-8") as f:

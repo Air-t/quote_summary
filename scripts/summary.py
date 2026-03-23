@@ -1,6 +1,6 @@
 import os
-from utils import process_directory, save_csv
 
+from utils import process_directory, save_csv
 
 if __name__ == "__main__":
     INPUT_DIR = input("Enter input directory: ").strip()
@@ -11,6 +11,6 @@ if __name__ == "__main__":
     data = process_directory(INPUT_DIR, LOG_FILE)
     save_csv(data, SUMMARY_FILE)
 
-    print(f"\nDone!")
+    print("\nDone!")
     print(f"Summary: {SUMMARY_FILE}")
     print(f"Errors: {LOG_FILE}")
